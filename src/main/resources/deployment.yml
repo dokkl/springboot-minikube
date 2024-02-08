@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: springboot-minikube
   labels:
@@ -10,30 +10,29 @@ spec:
       port: 8080      
       targetPort: 8080  
       protocol: TCP
-  selector:           
+  selector:
     app: springboot-minikube
-  type: LoadBalancer       
-
+  type: LoadBalancer
 ---
 apiVersion: apps/v1 
-kind: Deployment    
-metadata:              
+kind: Deployment
+metadata:
   name: springboot-minikube
-spec:                
-  selector:         
+spec:
+  selector:
     matchLabels:
       app: springboot-minikube
-  replicas: 3        
+  replicas: 3
   template:
     metadata:
-      labels:        
+      labels:
         app: springboot-minikube
     spec:
       containers:
         - name: springboot-minikube
-          image: {hub-username}/springboot-minikube:1.0
+          image: dokkl/springboot-minikube:8.0
           ports:
-            - containerPort: 8080                
+            - containerPort: 8080
           env:   # Setting Enviornmental Variables
           - name: DB_HOST   # Setting Database host address from configMap
             valueFrom: 
@@ -54,4 +53,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: db-credentials
-                key: password     
+                key: password
